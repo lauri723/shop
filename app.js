@@ -20,7 +20,7 @@ const sectionRoutes = require('./routes/sections');
 const listingRoutes = require('./routes/listings');
 const cartRoutes = require('./routes/cart');
 
-const MongoDBStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/shopping';
 
@@ -49,11 +49,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize({
     replaceWith: '_'
 }))
-const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+const secret = process.env.SECRET || 'I am really short';
 
-const store = new MongoDBStore({
-    url: dbUrl,
-    secret,
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret: secret,
     touchAfter: 24 * 60 * 60
 });
 

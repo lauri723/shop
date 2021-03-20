@@ -1,0 +1,141 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="section-drop mb-5">
+    <div class="dropdown">
+        <button class="btn btn-primary btn-lg px-5 dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Sections
+        </button>
+        <% for (let section of sections) { %>
+        <ul class="dropdown-menu px-5" aria-labelledby="dropdownMenuButton1">
+            <% sections.forEach((section, i) => {  %>
+            <li><a class="dropdown-item" href="/sections/<%= section._id %>"><%= sections[i].title %></a></li>
+            <% }) %>
+        </ul>
+        <% } %>
+    </div>
+    <h1 class="mb-3"><%= section.title%></h1>
+</div>
+<div class="text-center">
+    <% if(currentUser){ %>
+    <a class="btn btn-small btn-info px-5 mb-5" href="#addListing">Add a Listing</a>
+    <% } %>
+</div>
+
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+<div class="listing-cards mb-3 mb-md-5">
+    <% for(let listing of section.listings) { %>
+    <div class="card-group">
+        <div class="card" style="max-width: 17rem;">
+            <div class="card-img-top">
+                <%if(listing.photos.length) {%>
+                <a href="/sections/<%=section.slug%>/listings/<%=listing.slug%>/show">
+                    <img class="img-fluid" alt="" src="<%=listing.photos[0].url%>">
+                <% } %>
+                </a>
+            </div>
+            <div class="card-footer px-2">
+                <a class="listing-title" href="/sections/<%=section.slug%>/listings/<%=listing.slug%>/show">
+                    <h5 class="mb-0"><%=listing.title%></h5></a>
+                <h6 class="card-subtitle text-muted mb-0"><%= listing.notation %></h6>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- ========================================================= -->
+
+
+
+<a id="addListing" href=""></a>
+<% if(currentUser){ %>
+<!-- <h3 class="text-center mt-5 mb-3">Add a Listing</h3> -->
+<div class="row">
+    <!-- <div class="card card-form mt-5 p-1 p-md-5"> -->
+    <div class="col-md-6 offset-md-3">
+        <!-- <div class="card-body"> -->
+
+        <form action="/sections/<%=section._id%>/listings" method="POST" novalidate class="mb-3 validated-form"
+            enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="listing[title]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="notation">Notation</label>
+                <input class="form-control" type="text" id="notation" name="listing[notation]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" name="listing[description]" id="body" cols="30" rows="3"
+                    required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="materials">Materials</label>
+                <input class="form-control" type="text" id="materials" name="listing[materials]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="orderKey">Order Key</label>
+                <input class="form-control" type="text" id="orderKey" name="listing[orderKey]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="tags">Tags</label>
+                <input class="form-control" type="text" id="tags" name="listing[tags]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="price">Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                        aria-describedby="price-label" name="listing[price]" required>
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="photo">Image - Choose single image</label>
+                <div class="form-control">
+                    <input type="file" class="form-file-input" id="photo" name="photo" multiple>
+                </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <button class="btn btn-success px-5">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<% } %>

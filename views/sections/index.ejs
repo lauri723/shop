@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate')%>
+<div class="container section-index">
+    
+    <h1 class="text-center mb-5">All Sections</h1>
+    <div class="section-cards">
+    <% for (let section of sections){%>
+        <div class="card-group">
+          <div class="card mb-3 mb-md-5" style="max-width: 12rem;">
+            <%if(section.images.length) {%>
+                <div class="card-img-top">
+                    <a href="/sections/<%= section.slug %>">
+                        <img class="img-fluid" alt="" src="<%=section.images[0].url%>">
+                        <% }else {%>
+                        <img class="img-fluid" alt=""
+                            src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png"> 
+                        <% } %>
+                    </a>
+                </div>
+                <div class="card-footer px-2"> 
+                    <div>
+                        <a class="section-title" href="/sections/<%=section.slug%>"><h5 class="mb-0"><%=section.title%></h5></a>
+                        <h6 class="text-muted mb-0"><%= section.notification %></h6>
+                    </div> 
+                </div>
+                <div class="card-footer second-footer text-center px-2">
+                    <%  if( currentUser && section.author.equals(currentUser._id))  {%>
+                        <a class="card-link btn btn-sm btn-primary" href="/sections/<%=section._id%>/edit">Edit</a>
+                        <form class="d-inline" action="/sections/<%=section._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+          </div>
+        </div>
+    <% }%>
+    </div>
+
+</div>
+    
