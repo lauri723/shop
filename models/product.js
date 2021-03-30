@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify')
-const Section = require('./section')
+const Category = require('./category')
 const Schema = mongoose.Schema;
 
 
@@ -15,7 +15,7 @@ PhotoSchema.virtual('thumbnail').get(function () {
 
 const opts = { toJSON: { virtuals: true } };
 
-const ListingSchema = new Schema({
+const ProductSchema = new Schema({
     title: String,
     photos: [PhotoSchema],
     createdAt: {
@@ -40,7 +40,7 @@ const ListingSchema = new Schema({
       },   
 }, opts);
 
-ListingSchema.pre('validate', function(next) {
+ProductSchema.pre('validate', function(next) {
     if (this.title) {
       this.slug = slugify(this.title + "-" + Math.floor(1000 + Math.random() * 9000), { lower: true, strict: true })
     }
@@ -48,5 +48,5 @@ ListingSchema.pre('validate', function(next) {
     next()
   })
 
-module.exports = mongoose.model("Listing", ListingSchema);
+module.exports = mongoose.model("Product", ProductSchema);
 

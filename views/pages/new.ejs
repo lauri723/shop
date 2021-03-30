@@ -1,27 +1,35 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <h1 class="text-center">New Section</h1>
+    <h1 class="text-center">New Page</h1>
     <div class="col-md-6 offset-md-3">
-        <form action="/sections" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+        <form action="/pages" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="section[title]" required>
+                <input class="form-control" type="text" id="title" name="page[title]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="notification">Notification</label>
-                <input class="form-control" type="text" id="notification" name="section[notification]" required>
+                <label class="form-label" for="notice">Notice</label>
+                <input class="form-control" type="text" id="notice" name="page[notice]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
-            
+
+            <div class="mb-3">
+                <label class="form-label" for="content">Content</label>
+                <textarea class="form-control" name="page[content]" id="body" cols="30" rows="3" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label class="form-label" for="orderKey">Order Key</label>
-                <input class="form-control" type="text" id="orderKey" name="section[orderKey]" required>
+                <input class="form-control" type="text" id="orderKey" name="page[orderKey]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -33,12 +41,12 @@
                     <input type="file" class="form-file-input" id="image" name="image" multiple>
                 </div>
             </div>
-            
+
             <div class="mb-3">
-                <button class="btn btn-success px-5">Add Section</button>
-                <a class="btn btn-primary px-5" href="/sections">All Sections</a>
+                <button class="btn btn-success px-5">Add Page</button>
+                <a class="btn btn-primary px-5" href="/pages">All Pages</a>
             </div>
         </form>
-        
+
     </div>
 </div>

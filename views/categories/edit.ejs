@@ -1,0 +1,56 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <h1 class="text-center">Edit Category</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/categories/<%=category._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+            enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="category[title]" value="<%=category.title %>"
+                    required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="notification">Title</label>
+                <input class="form-control" type="text" id="notification" name="category[notification]"
+                    value="<%=category.notification %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="orderKey">Order Key</label>
+                <input class="form-control" type="text" id="orderKey" name="category[orderKey]"
+                    value="<%=category.orderKey %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="image">Image - May change single image</label>
+                <div class="form-control">
+                    <input type="file" class="form-file-input" id="image" name="image" multiple>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <% category.images.forEach(function(img, i) {  %>
+                <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                <div class="form-check-inline">
+                    <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                </div>
+                <label for="image-<%=i%>">Delete?</label>
+                <% })%>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary px-5">Update Category</button>
+                <a class="btn btn-success px-5" href="/categories">Back To Product</a>
+            </div>
+        </form>
+    </div>
+</div>

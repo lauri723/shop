@@ -1,0 +1,43 @@
+<% layout('layouts/boilerplate')%>
+
+<%- include('../partials/category-navbar')%>
+<%- include('../partials/searchBar')%>
+
+<div class="container category-index">
+    
+    <h1 class="text-center mb-5">All Categories</h1>
+    <div class="category-cards">
+    <% for (let category of categories){%>
+        <div class="card-group">
+          <div class="card mb-3 mb-md-5" style="max-width: 12rem;">
+            <%if(category.images.length) {%>
+                <div class="card-img-top">
+                    <a href="/categories/<%= category.slug %>">
+                        <img class="img-fluid img-cat" alt="" src="<%=category.images[0].url%>">
+                        <% }else {%>
+                        <img class="img-fluid" alt=""
+                            src="https://res.cloudinary.com/douqbebwk/image/upload/v1600103881/YelpCamp/lz8jjv2gyynjil7lswf4.png"> 
+                        <% } %>
+                    </a>
+                </div>
+                <div class="card-footer px-2"> 
+                    <div>
+                        <a class="category-title" href="/categories/<%=category.slug%>"><h5 class="mb-0"><%=category.title%></h5></a>
+                        <h6 class="text-muted mb-0"><%= category.notification %></h6>
+                    </div> 
+                </div>
+                <div class="card-footer second-footer text-center px-2">
+                    <%  if( currentUser && category.author.equals(currentUser._id))  {%>
+                        <a class="card-link btn btn-sm btn-primary" href="/categories/<%=category._id%>/edit">Edit</a>
+                        <form class="d-inline" action="/categories/<%=category._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+          </div>
+        </div>
+    <% }%>
+    </div>
+
+</div>
+    

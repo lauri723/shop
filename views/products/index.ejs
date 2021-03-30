@@ -1,0 +1,28 @@
+<% layout('layouts/boilerplate')%>
+
+<%- include('../partials/category-navbar')%>
+<%- include('../partials/searchBar')%>
+
+<div class="product-cards mb-3 mb-md-5">
+    <% for(let product of products) { %>
+    <div class="card-group">
+        <div class="card" style="max-width: 17rem;">
+            <div class="card-img-top">
+                <%if(product.photos.length) {%>
+                <a href="/products/<%=product.slug%>/show">
+                    <img class="img-fluid img-prod" alt="" src="<%=product.photos[0].url%>">
+                    <% } %>
+                </a>
+            </div>
+            <div class="card-footer px-2">
+                <a class="product-title" href="/products/<%=product.slug%>/show">
+                    <h5 class="mb-0"><%=product.title%></h5>
+                </a>
+                <h6 class="card-subtitle text-muted mb-0"><%= product.notation %></h6>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+<%- include('../partials/pagination')%>

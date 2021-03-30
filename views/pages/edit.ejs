@@ -1,31 +1,39 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <h1 class="text-center">Edit Section</h1>
+    <h1 class="text-center">Edit page</h1>
     <div class="col-md-6 offset-md-3">
-        <form action="/sections/<%=section._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+        <form action="/pages/<%=page._id%>?_method=PUT" method="POST" novalidate class="validated-form"
             enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="section[title]"
-                    value="<%=section.title %>" required>
+                <input class="form-control" type="text" id="title" name="page[title]" value="<%=page.title %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
-            
+
             <div class="mb-3">
-                <label class="form-label" for="notification">Title</label>
-                <input class="form-control" type="text" id="notification" name="section[notification]"
-                    value="<%=section.notification %>" required>
+                <label class="form-label" for="notice">Title</label>
+                <input class="form-control" type="text" id="notice" name="page[notice]" value="<%=page.notice %>"
+                    required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
-            
+
+            <div class="mb-3">
+                <label class="form-label" for="content">Content</label>
+                <textarea class="form-control" type="text" id="content" name="page[content]" cols="30" rows="3"
+                    value="<%= page.content %>" required><%= page.content %></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label class="form-label" for="orderKey">Order Key</label>
-                <input class="form-control" type="text" id="orderKey" name="section[orderKey]" 
-                    value="<%=section.orderKey %>" required>
+                <input class="form-control" type="text" id="orderKey" name="page[orderKey]" value="<%=page.orderKey %>"
+                    required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -39,7 +47,7 @@
             </div>
 
             <div class="mb-3">
-                <% section.images.forEach(function(img, i) {  %>
+                <% page.images.forEach(function(img, i) {  %>
                 <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
                 <div class="form-check-inline">
                     <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
@@ -48,8 +56,8 @@
                 <% })%>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary px-5">Update Section</button>
-                <a class="btn btn-success px-5" href="/sections">Back To Listing</a>
+                <button class="btn btn-primary px-5">Update page</button>
+                <a class="btn btn-success px-5" href="/pages">Back To Pages</a>
             </div>
         </form>
     </div>

@@ -1,15 +1,14 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <h1 class="text-center">Edit Listing</h1>
+    <h1 class="text-center">Edit Product</h1>
     <div class="col-md-6 offset-md-3">
-        <form action="/sections/<%=section_id%>/listings/<%=listing._id%>?_method=PUT" 
-            method="POST" novalidate class="validated-form" 
+        <form action="/products/<%=product._id%>?_method=PUT" method="POST" novalidate class="validated-form"
             enctype="multipart/form-data">
 
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="listing[title]" 
-                    value="<%= listing.title %>" required>
+                <input class="form-control" type="text" id="title" name="product[title]" value="<%= product.title %>"
+                    required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -17,17 +16,17 @@
 
             <div class="mb-3">
                 <label class="form-label" for="notation">Notation</label>
-                <input class="form-control" type="text" id="notation" name="listing[notation]" 
-                    value="<%= listing.notation %>" required>
+                <input class="form-control" type="text" id="notation" name="product[notation]"
+                    value="<%= product.notation %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
-            
+
             <div class="mb-3">
-                <label class="form-label" for="description">Listing Text</label>
-                <textarea class="form-control" type="text" id="description" name="listing[description]" cols="30" rows="3" 
-                    value="<%= listing.description %>" required><%= listing.description %></textarea>
+                <label class="form-label" for="description">Product Text</label>
+                <textarea class="form-control" type="text" id="description" name="product[description]" cols="30"
+                    rows="3" value="<%= product.description %>" required><%= product.description %></textarea>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -35,8 +34,8 @@
 
             <div class="mb-3">
                 <label class="form-label" for="materials">Materials</label>
-                <input class="form-control" type="text" id="materials" name="listing[materials]" 
-                    value="<%= listing.materials %>" required>
+                <input class="form-control" type="text" id="materials" name="product[materials]"
+                    value="<%= product.materials %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -44,8 +43,8 @@
 
             <div class="mb-3">
                 <label class="form-label" for="orderKey">Order Key</label>
-                <input class="form-control" type="text" id="orderKey" name="listing[orderKey]" 
-                    value="<%= listing.orderKey %>" required>
+                <input class="form-control" type="text" id="orderKey" name="product[orderKey]"
+                    value="<%= product.orderKey %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -53,20 +52,19 @@
 
             <div class="mb-3">
                 <label class="form-label" for="tags">Tags</label>
-                <input class="form-control" type="text" id="tags" name="listing[tags]" 
-                    value="<%= listing.tags %>" required>
+                <input class="form-control" type="text" id="tags" name="product[tags]" value="<%= product.tags %>"
+                    required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="price">Listing Price</label>
+                <label class="form-label" for="price">Product Price</label>
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">$</span>
                     <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                        aria-describedby="price-label" name="listing[price]" 
-                        value="<%= listing.price %>" required>
+                        aria-describedby="price-label" name="product[price]" value="<%= product.price %>" required>
                 </div>
                 <div class="valid-feedback">
                     Looks good!
@@ -83,7 +81,7 @@
             <div class="row">
                 <div class="col-8 text-center ml-5">
                     <div class="mb-3">
-                        <% listing.photos.forEach(function(photo, i) {  %>
+                        <% product.photos.forEach(function(photo, i) {  %>
                         <img src="<%=photo.thumbnail %>" class="img-thumbnail mb-2" alt="">
                         <div class="form-check-inline mb-3">
                             <input type="checkbox" id="photo-<%=i%>" name="deletePhotos[]" value="<%=photo.filename%>">
@@ -92,14 +90,13 @@
                         <% })%>
                     </div>
                 </div>
-            </div> 
+            </div>
 
             <div class="mb-3">
-                <button class="btn btn-primary px-5">Update Listing</button>
-                <a class="btn btn-success px-5" href="/sections/<%=section.slug%>">Back To Listing</a>
+                <button class="btn btn-primary px-5">Update Product</button>
+                <a class="btn btn-success px-5" href="/products/<%= product.slug %>/show">Back To Product</a>
             </div>
         </form>
-        
+
     </div>
 </div>
-

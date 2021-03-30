@@ -15,9 +15,10 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
+const pageRoutes = require('./routes/pages');
 const userRoutes = require('./routes/users');
-const sectionRoutes = require('./routes/sections');
-const listingRoutes = require('./routes/listings');
+const categoryRoutes = require('./routes/categories');
+const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/cart');
 
 const MongoStore = require("connect-mongo");
@@ -135,14 +136,20 @@ app.use((req, res, next) => {
 
 
 app.use('/', userRoutes);
-app.use('/sections', sectionRoutes)
-app.use('/sections/:id/listings', listingRoutes)
+app.use('/pages', pageRoutes)
+app.use('/categories', categoryRoutes)
+app.use('/categories/:id/products', productRoutes)
+app.use('/products', productRoutes)
 app.use('/cart', cartRoutes)
 
 
 app.get('/', (req, res) => {
     res.render('home')
 });
+
+app.get('/admin', (req, res) => {
+    res.render('admin')
+})
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))

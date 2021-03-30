@@ -4,29 +4,45 @@
     <div class="card-cart mb-5">
         <div class="card-body">
             <h1 class="text-center mb-4">Checkout</h1>
-
+            <hr>
             <% let totalItems = 0; %>
             <% let subTotal = 0; %>
-            <% if(listings){%>
-            <% listings.map((listing) => { %>
-            <div class="row cart-line-item">
-                <table>
-                    <tr class="text-end">
-                        <td class="cart-item-title text-start"><%= listing.title %></td>
+            <% if(products){%>
+
+            <!-- <div class="row cart-line-item"> -->
+            <table>
+                <thead class="text-end">
+                    <tr>
+                        <th class="header-product text-start">PRODUCT</th>
+                        <th class="header-price">PRICE &nbsp; &nbsp;</th>
+                        <th class="header-qty">QTY &nbsp; &nbsp; &nbsp;</th>
+                        <th class="header-subtotal">SUBTOTOAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let product of products) { %>
+                    <tr class="text-end cart-line-item">
+                        <td>
+                            <%if(product.photos.length) {%>
+                            <div class="card-img-top">
+                                <img class="img-fluid" alt="" src="<%=product.photos[0].url%>" width="50" height="50">
+                                <% } %>
+                        </td>
+                        <td class="cart-item-title text-start"><%= product.title %></td>
                         <td class="text-muted cart-price">
-                            $<%= listing.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>&nbsp;
-                            &nbsp; </a></td>
+                            $<%= product.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>&nbsp;
+                            &nbsp;</td>
                         <td class="cart-qty">
-                            <span>Qty</span>
-                            <a class="plus-minus" href="/cart/update/<%= listing.id %>?action=min"><svg
+                            <!-- <input type="number" min="1" max="100" value="<%= product.qty %>"> -->
+                            <a class="plus-minus" href="/cart/update/<%= product.id %>?action=min"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-dash-square" viewBox="0 0 16 16">
                                     <path
                                         d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                                     <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
-                                </svg></a>
-                            &nbsp;<%= listing.qty %>&nbsp;
-                            <a class="plus-minus" href="/cart/update/<%= listing.id %>?action=add"><svg
+                                </svg></a>                                
+                            &nbsp;<%= product.qty %>&nbsp;
+                            <a class="plus-minus" href="/cart/update/<%= product.id %>?action=add"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-plus-square" viewBox="0 0 16 16">
                                     <path
@@ -35,11 +51,11 @@
                                         d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                                 </svg></a>
                         </td>
-                        <td class="cart-price-ext">
-                            $<%= (listing.price * listing.qty).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                        <td class="cart-price-subtotal">
+                            $<%= (product.price * product.qty).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
                         </td>
                         <td class="cart-trash">
-                            <a href="/cart/update/<%= listing.id %>?action=clear"><svg
+                            <a href="/cart/update/<%= product.id %>?action=clear"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                     class="bi bi-trash" viewBox="0 0 16 16">
                                     <path
@@ -49,10 +65,14 @@
                                 </svg></a>
                         </td>
                     </tr>
-                </table>
-            </div>
-            <% subTotal += listing.price * listing.qty %>
-            <% }); %>
+                    <% totalItems += product.qty %>
+                    <% subTotal += product.price * product.qty %>
+                    <% }; %>
+                </tbody>
+
+            </table>
+            <!-- </div> -->
+
             <hr>
             <hr>
 
@@ -65,9 +85,9 @@
                     <div class="col-6 cart-totals">
                         <div class="totals">
                             <table>
-                                <!-- <thead>
-                                    <th>Order</th>
-                                </thead> -->
+                                <thead>
+                                    <th>Total Items: <%= totalItems %></th>
+                                </thead>
                                 <tbody>
                                     <tr class="subtotal">
                                         <td class="td-left">Subtotal</td>
@@ -95,9 +115,9 @@
                         <%}else{%>
                         <h3 class="text-center">You cart is empty</h3>
                         <%}%>
-                        <div class="cart-btn mt-3">
-                            <a href="/cart/checkout" class="btn btn-info btn-sm btn-cart-btn px-4" id="checkout">Checkout</a>
-                            <a href="/cart/shop" class="btn btn-sm btn-success px-4">Back to Listings</a>
+                        <div class="cart-btn text-center mt-3">
+                            <a href="/products" class="btn btn-sm btn-success px-4">BACK TO PRODUCTS</a>
+                            <a href="#"  id="checkout-button" class="btn btn-info btn-sm btn-cart-btn px-5" id="checkout">CHECKOUT</a>
                         </div>
                     </div>
                 </div>
@@ -105,4 +125,4 @@
             
         </div>
     </div>    
-</div>  
+</div> 

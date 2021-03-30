@@ -23,8 +23,8 @@ const extension = (joi) => ({
 
 const Joi = BaseJoi.extend(extension)
 
-module.exports.sectionSchema = Joi.object({
-    section: Joi.object({
+module.exports.categorySchema = Joi.object({
+    category: Joi.object({
         title: Joi.string().required().escapeHTML(),
         notification: Joi.string().required().escapeHTML(),
         orderKey: Joi.number().required().min(0),
@@ -32,8 +32,8 @@ module.exports.sectionSchema = Joi.object({
     deleteImages: Joi.array()
 });
 
-module.exports.listingSchema = Joi.object({
-    listing: Joi.object({
+module.exports.productSchema = Joi.object({
+    product: Joi.object({
         title: Joi.string().required().escapeHTML(),
         description: Joi.string().required().escapeHTML(),
         materials: Joi.string().required().escapeHTML(),
@@ -43,5 +43,15 @@ module.exports.listingSchema = Joi.object({
         price: Joi.number().required().min(0),
     }).required(),
     deletePhotos: Joi.array()
+})
+
+module.exports.pageSchema = Joi.object({
+    page: Joi.object({
+        title: Joi.string().required().escapeHTML(),
+        notice: Joi.string().required().escapeHTML(),
+        content: Joi.string().required().escapeHTML(),
+        orderKey: Joi.number().required().min(0),
+    }).required(),
+    deleteImages: Joi.array()
 })
 

@@ -1,6 +1,6 @@
 :root {
-    --color-background-one: #bbbbbb;
-    --color-background-two: #dddddd;
+    --color-background-one: #dddddd;
+    --color-background-two: #eeeeee;
     /* home-name/nav/header/buttons */
     --color-one: #2a655c;
     --color-two: #173630;
@@ -28,7 +28,7 @@
     --font-size-twelveA: 1.2rem;
     --font-size-twelveB: 1.1rem;
     --font-size-thirteen: 1rem;
-  
+    --font-size-fourteen: .9rem;
   }
   
   

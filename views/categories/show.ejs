@@ -1,51 +1,40 @@
 <% layout('layouts/boilerplate')%>
 
-<div class="section-drop mb-5">
-    <div class="dropdown">
-        <button class="btn btn-primary btn-lg px-5 dropdown-toggle" type="button" id="dropdownMenuButton1"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Sections
-        </button>
-        <% for (let section of sections) { %>
-        <ul class="dropdown-menu px-5" aria-labelledby="dropdownMenuButton1">
-            <% sections.forEach((section, i) => {  %>
-            <li><a class="dropdown-item" href="/sections/<%= section._id %>"><%= sections[i].title %></a></li>
-            <% }) %>
-        </ul>
-        <% } %>
-    </div>
-    <h1 class="mb-3"><%= section.title%></h1>
-</div>
+<%- include('../partials/category-navbar')%>
+<%- include('../partials/searchBar')%>
+
 <div class="text-center">
     <% if(currentUser){ %>
-    <a class="btn btn-small btn-info px-5 mb-5" href="#addListing">Add a Listing</a>
+    <a class="btn btn-small btn-info px-5 mb-5" href="#addProduct">ADD A PRODUCT</a>
     <% } %>
 </div>
 
 
 <!-- ========================================================= -->
 <!-- ========================================================= -->
-<div class="listing-cards mb-3 mb-md-5">
-    <% for(let listing of section.listings) { %>
+<div class="product-cards mb-3 mb-md-5">
+    <% for(let product of category.products) { %>
     <div class="card-group">
         <div class="card" style="max-width: 17rem;">
             <div class="card-img-top">
-                <%if(listing.photos.length) {%>
-                <a href="/sections/<%=section.slug%>/listings/<%=listing.slug%>/show">
-                    <img class="img-fluid" alt="" src="<%=listing.photos[0].url%>">
-                <% } %>
+                <%if(product.photos.length) {%>
+                <a href="/categories/<%=category.slug%>/products/<%=product.slug%>/show">
+                    <img class="img-fluid img-prod" alt="" src="<%=product.photos[0].url%>">
+                    <% } %>
                 </a>
             </div>
             <div class="card-footer px-2">
-                <a class="listing-title" href="/sections/<%=section.slug%>/listings/<%=listing.slug%>/show">
-                    <h5 class="mb-0"><%=listing.title%></h5></a>
-                <h6 class="card-subtitle text-muted mb-0"><%= listing.notation %></h6>
+                <a class="product-title" href="/categories/<%=category.slug%>/products/<%=product.slug%>/show">
+                    <h5 class="mb-0"><%=product.title%></h5>
+                </a>
+                <h6 class="card-subtitle text-muted mb-0"><%= product.notation %></h6>
             </div>
         </div>
     </div>
     <% } %>
 </div>
 
+<%- include('../partials/pagination')%>
 
 
 <!-- ========================================================= -->
@@ -53,20 +42,20 @@
 
 
 
-<a id="addListing" href=""></a>
+<a id="addProduct" href=""></a>
 <% if(currentUser){ %>
-<!-- <h3 class="text-center mt-5 mb-3">Add a Listing</h3> -->
+<!-- <h3 class="text-center mt-5 mb-3">Add a Product</h3> -->
 <div class="row">
     <!-- <div class="card card-form mt-5 p-1 p-md-5"> -->
     <div class="col-md-6 offset-md-3">
         <!-- <div class="card-body"> -->
 
-        <form action="/sections/<%=section._id%>/listings" method="POST" novalidate class="mb-3 validated-form"
+        <form action="/categories/<%=category._id%>/products" method="POST" novalidate class="mb-3 validated-form"
             enctype="multipart/form-data">
 
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="listing[title]" required>
+                <input class="form-control" type="text" id="title" name="product[title]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -74,7 +63,7 @@
 
             <div class="mb-3">
                 <label class="form-label" for="notation">Notation</label>
-                <input class="form-control" type="text" id="notation" name="listing[notation]" required>
+                <input class="form-control" type="text" id="notation" name="product[notation]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -82,7 +71,7 @@
 
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" name="listing[description]" id="body" cols="30" rows="3"
+                <textarea class="form-control" name="product[description]" id="body" cols="30" rows="3"
                     required></textarea>
                 <div class="valid-feedback">
                     Looks good!
@@ -91,7 +80,7 @@
 
             <div class="mb-3">
                 <label class="form-label" for="materials">Materials</label>
-                <input class="form-control" type="text" id="materials" name="listing[materials]" required>
+                <input class="form-control" type="text" id="materials" name="product[materials]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -99,7 +88,7 @@
 
             <div class="mb-3">
                 <label class="form-label" for="orderKey">Order Key</label>
-                <input class="form-control" type="text" id="orderKey" name="listing[orderKey]" required>
+                <input class="form-control" type="text" id="orderKey" name="product[orderKey]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -107,7 +96,7 @@
 
             <div class="mb-3">
                 <label class="form-label" for="tags">Tags</label>
-                <input class="form-control" type="text" id="tags" name="listing[tags]" required>
+                <input class="form-control" type="text" id="tags" name="product[tags]" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -118,7 +107,7 @@
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">$</span>
                     <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                        aria-describedby="price-label" name="listing[price]" required>
+                        aria-describedby="price-label" name="product[price]" required>
                 </div>
                 <div class="valid-feedback">
                     Looks good!

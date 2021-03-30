@@ -1,48 +1,51 @@
 const express = require('express');
 const router = express.Router();
-// const listings = require('../controllers/listings');
-// const catchAsync = require('../utils/catchAsync');
-// const { isLoggedIn, isAuthor, validateSection } = require('../middleware');
+const products = require('../controllers/products');
+const catchAsync = require('../utils/catchAsync');
+const { isLoggedIn, isAuthor, validateCategory } = require('../middleware');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
 const upload = multer({ storage });
 
-const Listing = require('../models/listing');
+const Product = require('../models/product');
 
 router.get('/checkout', function (req, res, next) {
-    const listings = req.session.cart;
+    const products = req.session.cart;
     res.render('checkout', {
-        listings: listings,
+        products: products,
+        cart: req.session.cart
         // title: "Shopping Cart"
     });
 });
 
 
-router.get('/add/:listing', function (req, res) {
-    const slug = req.params.listing
-    Listing.findOne({ slug: slug }, function (err, listing) {
+router.get('/add/:product', function (req, res) {
+    const slug = req.params.product
+    Product.findOne({ slug: slug }, function (err, product) {
         if (err) return console.log(err);
         if (req.session.cart === undefined) {
             req.session.cart = [];
             req.session.cart.push({
-                id: listing._id,
-                title: listing.title,
+                id: product._id,
+                title: product.title,
                 qty: 1,
-                price: listing.price,
+                price: product.price,
+                photos: product.photos(req.files.map(f => ({ url: f.path, filename: f.filename })))
             });    
         } else {
             let item = req.session.cart.find(item => {
-                return item.id == listing._id;
+                return item.id == product._id;
             });
 
             if (item) {
                 item.qty++;
             } else {
                 req.session.cart.push({
-                    id: listing._id,
-                    title: listing.title,
+                    id: product._id,
+                    title: product.title,
                     qty: 1,
-                    price: listing.price,
+                    price: product.price,
+                    photos: product.photos(req.files.map(f => ({ url: f.path, filename: f.filename })))
                 });
             }
         }
@@ -53,25 +56,25 @@ router.get('/add/:listing', function (req, res) {
     });
 });
 
-router.get('/update/:listing', function (req, res, next) {
+router.get('/update/:product', function (req, res, next) {
     let action = req.query.action;
-    let listing = req.session.cart.find(item => {
-        return item.id == req.params.listing;
+    let product = req.session.cart.find(item => {
+        return item.id == req.params.product;
     });
-    let index = req.session.cart.indexOf(listing);
+    let index = req.session.cart.indexOf(product);
     switch (action) {
         case 'add':
-            listing.qty++;
+            product.qty++;
             break;
         case 'min':
-            listing.qty--;
-            if (listing.qty < 1) {
+            product.qty--;
+            if (product.qty < 1) {
                 req.session.cart.splice(index, 1)
             }
             break;
         case "clear":
             req.session.cart.splice(index, 1);
-            if (listing.qty <= 0)
+            if (product.qty <= 0)
                 delete req.session.cart;
             break;
         // case 'clear':
@@ -89,12 +92,12 @@ router.get('/update/:listing', function (req, res, next) {
 });
 
 router.get('/cancel', function(req, res, next) {
-    res.redirect('/sections');
+    res.redirect('/categories');
 });
 
 
 router.get('/shop', function (req, res, next) {
-    res.redirect('/sections');
+    res.redirect('/categories');
 });
 
 
