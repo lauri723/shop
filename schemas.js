@@ -35,7 +35,8 @@ module.exports.categorySchema = Joi.object({
 module.exports.productSchema = Joi.object({
     product: Joi.object({
         title: Joi.string().required().escapeHTML(),
-        description: Joi.string().required().escapeHTML(),
+        description: Joi.string().required(),
+        // description: Joi.string().required().escapeHTML(),
         materials: Joi.string().required().escapeHTML(),
         tags: Joi.string().required().escapeHTML(),
         notation: Joi.string().required().escapeHTML(),
@@ -49,7 +50,8 @@ module.exports.pageSchema = Joi.object({
     page: Joi.object({
         title: Joi.string().required().escapeHTML(),
         notice: Joi.string().required().escapeHTML(),
-        content: Joi.string().required().escapeHTML(),
+        content: Joi.string().required(),
+        // content: Joi.string().required().escapeHTML(),
         orderKey: Joi.number().required().min(0),
     }).required(),
     deleteImages: Joi.array()

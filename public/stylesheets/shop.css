@@ -58,15 +58,11 @@ body {
 .img-cat {
   width: 175px;
   height: 175px;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .img-prod {
   width: 225px;
-  height: 225px;
-  background-repeat: no-repeat;
-  background-size: cover;
+  height: 325px;
 }
 
 .img-car {

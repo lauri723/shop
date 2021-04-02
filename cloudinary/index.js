@@ -10,12 +10,42 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: 'YelpCamp',
-        allowedFormats: ['jpeg', 'png', 'jpg', 'heic']
+        folder: 'Pages',
+        allowedFormats: ['jpeg', 'png', 'jpg', 'heic'],
+        transformation: [
+            { width: 600, gravity: "auto", crop: "fill" },
+        ], 
+        format: 'jpg'
+    }
+});
+
+const storage2 = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder: 'Categories',
+        allowedFormats: ['jpeg', 'png', 'jpg', 'heic'],
+        transformation: [
+            { width: 175, height: 175, gravity: "auto", crop: "fill" },
+        ], 
+        format: 'jpg'
+    }
+});
+
+const storage3 = new CloudinaryStorage({
+    cloudinary,
+    params: {
+        folder: 'Products',
+        allowedFormats: ['jpeg', 'png', 'jpg', 'heic'],
+        transformation: [
+            { width: 225, height: 325, gravity: "auto", crop: "fill" },
+        ], 
+        format: 'jpg'
     }
 });
 
 module.exports = {
     cloudinary,
-    storage
+    storage,
+    storage2,
+    storage3
 }

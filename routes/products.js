@@ -8,12 +8,12 @@ const categories = require('../controllers/categories');
 const ExpressError = require('../utils/ExpressError');
 const catchAsync = require('../utils/catchAsync');
 const multer = require('multer');
-const { storage } = require('../cloudinary');
-const upload = multer({ storage });
+const { storage3 } = require('../cloudinary');
+const upload3 = multer({ storage: storage3 });
 
 router.route('/')
     .get(catchAsync(products.index))
-    .post(isLoggedIn, upload.array('photo'), validateProduct, catchAsync(products.createProduct))
+    .post(isLoggedIn, upload3.array('photo'), validateProduct, catchAsync(products.createProduct))
 
 // router.get("/search", (catchAsync(products.index)) )
 
@@ -23,7 +23,7 @@ router.route('/:slug/show')
     .get(catchAsync(products.showProduct))
 
 router.route('/:productId')
-    .put(isLoggedIn, isProductAuthor, upload.array('photo'), validateProduct, catchAsync(products.updateProduct))
+    .put(isLoggedIn, isProductAuthor, upload3.array('photo'), validateProduct, catchAsync(products.updateProduct))
     .delete(isLoggedIn, isProductAuthor, catchAsync(products.deleteProduct));
 
 router.get('/:productId/edit', isLoggedIn, isProductAuthor, catchAsync(products.renderEditForm))

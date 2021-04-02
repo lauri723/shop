@@ -44,6 +44,8 @@ app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
 
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -86,13 +88,15 @@ const scriptSrcUrls = [
     "https://kit.fontawesome.com",
     "https://cdnjs.cloudflare.com",
     "https://cdn.jsdelivr.net",
+    // "https://cdn.tiny.cloud"
 ];
 const styleSrcUrls = [
     "https://kit-free.fontawesome.com",
     "https://stackpath.bootstrapcdn.com",
     "https://fonts.googleapis.com",
     "https://use.fontawesome.com",
-    "https://cdn.jsdelivr.net"
+    "https://cdn.jsdelivr.net",
+    // "https://cdn.tiny.cloud"
 ];
 
 const fontSrcUrls = [
@@ -113,6 +117,7 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/lovelywd/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
                 "https://images.unsplash.com",
+                // "https://sp.tinymce.com/"
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
