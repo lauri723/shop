@@ -160,6 +160,15 @@ app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 })
 
+app.all('*', function(req, res, next) {
+    if(req.session.cart === undefined) {
+      app.locals.cart = 0;
+    }else {
+      app.locals.cart = req.session.cart.length;
+    }
+    next();
+  });
+
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'

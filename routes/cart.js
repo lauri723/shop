@@ -9,6 +9,8 @@ const upload = multer({ storage });
 
 const Product = require('../models/product');
 
+const stripe = require('stripe')('process.env.STRIPE_SECRET_KEY');
+
 router.get('/checkout', function (req, res, next) {
     const products = req.session.cart;
     res.render('checkout', {
@@ -30,7 +32,7 @@ router.get('/add/:product', function (req, res) {
                 title: product.title,
                 qty: 1,
                 price: product.price,
-                photos: product.photos(req.files.map(f => ({ url: f.path, filename: f.filename })))
+                photos: product.photos    //(req.files.map(f => ({ url: f.path, filename: f.filename })))
             });    
         } else {
             let item = req.session.cart.find(item => {
@@ -45,7 +47,7 @@ router.get('/add/:product', function (req, res) {
                     title: product.title,
                     qty: 1,
                     price: product.price,
-                    photos: product.photos(req.files.map(f => ({ url: f.path, filename: f.filename })))
+                    photos: product.photos  //(req.files.map(f => ({ url: f.path, filename: f.filename })))
                 });
             }
         }
@@ -77,10 +79,7 @@ router.get('/update/:product', function (req, res, next) {
             if (product.qty <= 0)
                 delete req.session.cart;
             break;
-        // case 'clear':
-        //     req.session.destroy();
-        //     res.redirect('/cart/checkout');
-        //     break;
+        
         default:
             res.redirect('/cart/checkout');
             break;
@@ -96,9 +95,31 @@ router.get('/cancel', function(req, res, next) {
 });
 
 
-router.get('/shop', function (req, res, next) {
-    res.redirect('/categories');
+router.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Stubborn Attachments',
+            images: ['https://i.imgur.com/EHyR2nP.png'],
+          },
+          unit_amount: 2000,
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: `${process.env.DOMAIN}/success.html`,
+    cancel_url: `${process.env.DOMAIN}/cancel.html`,
+  });
+
+  res.json({ id: session.id });
 });
+
+// app.listen(4242, () => console.log('Running on port 4242'));
 
 
 module.exports = router;
